@@ -1,0 +1,99 @@
+# Good login
+
+POST http://localhost:3001/api/sessions
+content-type: application/json
+
+{
+  "username": "marco",
+  "password": "password1" 
+}
+
+###
+
+# Bad login
+
+POST http://localhost:3001/api/sessions
+content-type: application/json
+
+{
+  "username": "marco",
+  "password": "wrong_password" 
+}
+
+###
+
+# Logout
+
+DELETE http://localhost:3001/api/sessions/current
+
+
+###
+
+# Current user
+
+GET http://localhost:3001/api/sessions/current
+
+###
+
+# Full network (Setup phase)
+
+GET http://localhost:3001/api/network/full
+
+###
+
+# Stations only (Planning phase)
+
+GET http://localhost:3001/api/network/stations
+
+###
+
+# Segments list (Planning phase)
+
+GET http://localhost:3001/api/network/segments
+
+###
+
+# Ranking
+
+GET http://localhost:3001/api/ranking
+
+###
+# Start new game
+
+POST http://localhost:3001/api/games
+
+###
+
+# Execute valid route
+# The active game is recovered from the logged-in user session
+
+POST http://localhost:3001/api/games/execute
+content-type: application/json
+
+{
+  "segments": [6, 7, 8]
+}
+
+###
+
+# Execute invalid route
+
+POST http://localhost:3001/api/games/execute
+content-type: application/json
+
+{
+  "segments": [999]
+}
+
+###
+
+# Execute with malformed body
+
+POST http://localhost:3001/api/games/execute
+content-type: application/json
+
+{
+  "segments": "not-an-array"
+}
+
+###
