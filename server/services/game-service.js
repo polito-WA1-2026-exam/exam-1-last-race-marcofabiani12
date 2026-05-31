@@ -1,13 +1,11 @@
 import Game from "../models/game.js";
 
-export default function GameService(networkDao, eventDao, userDao) {
+export default function GameService(networkService, eventDao, userDao) {
 
     const activeGames = new Map();
 
     const INITIAL_COINS = 20;
 
-    let stationsCache = [];
-    let segmentsCache = [];
     let eventsCache = [];
     let adjacencyCache = new Map();
 
@@ -34,16 +32,8 @@ export default function GameService(networkDao, eventDao, userDao) {
     };
 
     this.init = async () => {
-        const [stations, segments, events] = await Promise.all([
-            networkDao.getStations(),
-            networkDao.getSegments(),
-            eventDao.getAllEvents()
-        ]);
-    
-        stationsCache = stations;
-        segmentsCache = segments;
-        eventsCache = events;
-        adjacencyCache = buildAdjacency(segments);
+        eventsCache = await eventDao.getAllEvents();;
+        adjacencyCache = buildAdjacency(networkService.getSegments());
     };
 
     // Computes the minimum number of stops between two stations using BFS.
@@ -151,7 +141,7 @@ export default function GameService(networkDao, eventDao, userDao) {
             activeGames.delete(userId);
         }
 
-        const stations = stationsCache;
+        const stations = networkService.getStations();
         const adjacency = adjacencyCache;
 
         let startStation;
@@ -217,7 +207,7 @@ export default function GameService(networkDao, eventDao, userDao) {
             return result;
         }
 
-        const segments = segmentsCache;
+        const segments = networkService.getSegments();
         const events = eventsCache;
 
         const validation = validateRoute(game, submittedSegmentIds, segments);

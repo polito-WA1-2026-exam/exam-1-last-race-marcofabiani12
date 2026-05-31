@@ -11,12 +11,15 @@ import UserDao from './dao/user-dao.js';
 import NetworkDao from './dao/network-dao.js';
 import EventDao from './dao/event-dao.js';
 
+// Services imports
+import NetworkService from './services/network-service.js'
 import GameService from './services/game-service.js';
 
 const userDao = new UserDao();
 const networkDao = new NetworkDao();
 const eventDao = new EventDao();
-const gameService = new GameService(networkDao, eventDao, userDao);
+const networkService = new NetworkService(networkDao);
+const gameService = new GameService(networkService, eventDao, userDao);
 
 // Passport configuration
 passport.use(new LocalStrategy(
@@ -115,11 +118,12 @@ app.delete('/api/sessions/current', (req, res) => {
 });
 
 // --- Network APIs ---
+
 // GET /api/network/full
 // Returns the complete underground network used during the Setup phase.
 app.get('/api/network/full', isLoggedIn, async (req, res) => {
     try {
-        const network = await networkDao.getFullNetwork();
+        const network = await networkService.getFullNetwork();
         return res.status(200).json(network);
     } catch (err) {
         return res.status(500).json(err);
@@ -130,7 +134,7 @@ app.get('/api/network/full', isLoggedIn, async (req, res) => {
 // Returns all stations. Used during the Planning phase.
 app.get('/api/network/stations', isLoggedIn, async (req, res) => {
     try {
-        const stations = await networkDao.getStations();
+        const stations = await networkService.getStations();
         return res.status(200).json(stations);
     } catch (err) {
         return res.status(500).json(err);
@@ -141,7 +145,7 @@ app.get('/api/network/stations', isLoggedIn, async (req, res) => {
 // Returns all direct segments between consecutive stations.
 app.get('/api/network/segments', isLoggedIn, async (req, res) => {
     try {
-        const segments = await networkDao.getSegments();
+        const segments = await networkService.getSegments();
         return res.status(200).json(segments);
     } catch (err) {
         return res.status(500).json(err);
@@ -218,6 +222,7 @@ const PORT = 3001;
 
 const startServer = async () => {
     try {
+        await networkService.init();
         await gameService.init();
 
         app.listen(PORT, () => {
@@ -225,7 +230,7 @@ const startServer = async () => {
         });
     }
     catch (err) {
-        console.error('Failed to initialize game service:', err);
+        console.error('Failed to initialize services:', err);
         process.exit(1);
     }
 };
