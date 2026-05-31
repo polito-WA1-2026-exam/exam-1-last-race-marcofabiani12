@@ -223,11 +223,13 @@ Starts a new game and randomly assigns the start station and destination station
 Submits the route built during the Planning phase. The server retrieves the active game of the currently authenticated user, validates the submitted route against the assigned starting station and destination station, generates a random event for each travelled segment, computes the final score, and updates the user's best score if necessary.
 
 - Request body:
+```json
 {
   "segments": [6, 7, 8]
 }
+```
 
-- Response body:
+- Response body (valid route)::
 
 ```json
 {
@@ -262,6 +264,28 @@ Submits the route built during the Planning phase. The server retrieves the acti
     }
   ],
   "finalScore": 22,
+  "bestScore": 31
+}
+```
+
+- Response body (invalid or incomplete route):
+
+```json
+{
+  "valid": false,
+  "reason": "invalid-route",
+  "finalScore": 0,
+  "bestScore": 31
+}
+```
+
+- Response body (timeout):
+
+```json
+{
+  "valid": false,
+  "reason": "timeout",
+  "finalScore": 0,
   "bestScore": 31
 }
 ```

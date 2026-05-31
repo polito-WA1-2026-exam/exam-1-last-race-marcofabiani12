@@ -46,22 +46,16 @@ export default function UserDao() {
     this.getRanking = () => {
         return new Promise((resolve, reject) => {
             const sql = `
-                SELECT user_id, username, best_score
+                SELECT username, best_score
                 FROM users
                 ORDER BY best_score DESC, username ASC
             `;
-
+        
             db.all(sql, [], (err, rows) => {
                 if (err) {
                     reject(err);
                 } else {
-                    const ranking = rows.map(row => new User(
-                        row.user_id,
-                        row.username,
-                        row.best_score
-                    ));
-
-                    resolve(ranking);
+                    resolve(rows);
                 }
             });
         });
