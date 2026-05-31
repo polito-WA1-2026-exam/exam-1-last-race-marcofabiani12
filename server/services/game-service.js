@@ -6,6 +6,11 @@ export default function GameService(networkDao, eventDao, userDao) {
 
     const INITIAL_COINS = 20;
 
+    let stationsCache = [];
+    let segmentsCache = [];
+    let eventsCache = [];
+    let adjacencyCache = new Map();
+
     // Planning phase duration (90 seconds) plus a small tolerance for network delays.
     const PLANNING_TIME_LIMIT_MS = 90_000;
     const PLANNING_TIME_TOLERANCE_MS = 5_000;
@@ -26,6 +31,19 @@ export default function GameService(networkDao, eventDao, userDao) {
         }
 
         return adjacency;
+    };
+
+    this.init = async () => {
+        const [stations, segments, events] = await Promise.all([
+            networkDao.getStations(),
+            networkDao.getSegments(),
+            eventDao.getAllEvents()
+        ]);
+    
+        stationsCache = stations;
+        segmentsCache = segments;
+        eventsCache = events;
+        adjacencyCache = buildAdjacency(segments);
     };
 
     // Computes the minimum number of stops between two stations using BFS.
@@ -124,15 +142,17 @@ export default function GameService(networkDao, eventDao, userDao) {
             const elapsedTime = Date.now() - existingGame.startedAt;
 
             if (elapsedTime <= PLANNING_TIME_LIMIT_MS + PLANNING_TIME_TOLERANCE_MS)
-                return existingGame;
+                return {
+                  startStation: existingGame.startStation,
+                  destinationStation: existingGame.destinationStation,
+                  coins: existingGame.coins
+                };
         
             activeGames.delete(userId);
         }
 
-        const stations = await networkDao.getStations();
-        const segments = await networkDao.getSegments();
-
-        const adjacency = buildAdjacency(segments);
+        const stations = stationsCache;
+        const adjacency = adjacencyCache;
 
         let startStation;
         let destinationStation;
@@ -197,8 +217,8 @@ export default function GameService(networkDao, eventDao, userDao) {
             return result;
         }
 
-        const segments = await networkDao.getSegments();
-        const events = await eventDao.getAllEvents();
+        const segments = segmentsCache;
+        const events = eventsCache;
 
         const validation = validateRoute(game, submittedSegmentIds, segments);
 

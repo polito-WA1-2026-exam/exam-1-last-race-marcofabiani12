@@ -216,6 +216,18 @@ app.get('/api/ranking', async (req, res) => {
 // Activate the server
 const PORT = 3001;
 
-app.listen(PORT, () => {
-  console.log(`Server listening at http://localhost:${PORT}`);
-});
+const startServer = async () => {
+    try {
+        await gameService.init();
+
+        app.listen(PORT, () => {
+            console.log(`Server listening at http://localhost:${PORT}`);
+        });
+    }
+    catch (err) {
+        console.error('Failed to initialize game service:', err);
+        process.exit(1);
+    }
+};
+
+startServer();
