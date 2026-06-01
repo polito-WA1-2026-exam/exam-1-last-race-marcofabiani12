@@ -46,8 +46,9 @@ export default function UserDao() {
     this.getRanking = () => {
         return new Promise((resolve, reject) => {
             const sql = `
-                SELECT username, best_score
+                SELECT username, best_score AS bestScore
                 FROM users
+                WHERE best_score <> 0
                 ORDER BY best_score DESC, username ASC
             `;
         
