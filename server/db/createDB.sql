@@ -1,3 +1,4 @@
+-- database: ./last-run.sqlite
 PRAGMA foreign_keys = ON;
 
 DROP TABLE IF EXISTS line_stations;
@@ -62,18 +63,20 @@ INSERT INTO users (username, hashed_password, salt, best_score) VALUES
 -- Stations
 
 INSERT INTO stations (name) VALUES
-('Centrale'),                         -- ('Central Station'),
-('Porta Velaria'),                        -- ('Velaria Gate'),
-('Crocevia del Falco'),                         -- ('Falcon Junction'),
-('Piazza delle Lanterne'),                        -- ('Lantern Square'),
-('Fontana Oscura'),                         -- ('Dark Fountain'),
-('Borgo Sereno'),                         -- ('Serene Borough'),
-('Viale dei Mosaici'),                        -- ('Mosaic Avenue'),
-('Torre Cinerea'),                        -- ('Ash Tower'),
-('Campo dell''Eco'),                        -- ('Echo Field'),
-('Giardino Sommerso'),                        -- ('Sunken Garden'),
-('Mercato d''Argento'),                         -- ('Silver Market'),
-('Arco del Tramonto');                        -- ('Sunset Arch');
+('Centrale'),                -- Central Station
+('Porta Velaria'),           -- Velaria Gate
+('Crocevia del Falco'),      -- Falcon Junction
+('Piazza delle Lanterne'),   -- Lantern Square
+('Fontana Oscura'),          -- Dark Fountain
+('Borgo Sereno'),            -- Serene Borough
+('Viale dei Mosaici'),       -- Mosaic Avenue
+('Torre Cinerea'),           -- Ash Tower
+('Campo dell''Eco'),         -- Echo Field
+('Giardino Sommerso'),       -- Sunken Garden
+('Mercato d''Argento'),      -- Silver Market
+('Arco del Tramonto'),       -- Sunset Arch
+('Riva delle Nebbie'),       -- Mistshore
+('Bastione Aurora');         -- Aurora Bastion
 
 -- Lines
 
@@ -83,41 +86,35 @@ INSERT INTO lines (name) VALUES
 ('Green Line'),
 ('Yellow Line');
 
--- Red Line
-
+-- Red Line: 1 - 2 - 3 - 4
 INSERT INTO line_stations (line_id, station_id, position) VALUES
 (1, 1, 1),
 (1, 2, 2),
 (1, 3, 3),
-(1, 4, 4),
-(1, 12, 5);
+(1, 4, 4);
 
--- Blue Line
-
+-- Blue Line: 11 - 10 - 9 - 12 - 13
 INSERT INTO line_stations (line_id, station_id, position) VALUES
-(2, 1, 1),
-(2, 5, 2),
-(2, 6, 3),
-(2, 7, 4),
-(2, 10, 5);
+(2, 11, 1),
+(2, 10, 2),
+(2, 9, 3),
+(2, 12, 4),
+(2, 13, 5);
 
--- Green Line
-
+-- Green Line: 5 - 2 - 6 - 9
 INSERT INTO line_stations (line_id, station_id, position) VALUES
-(3, 2, 1),
-(3, 5, 2),
-(3, 8, 3),
-(3, 9, 4),
-(3, 11, 5);
+(3, 5, 1),
+(3, 2, 2),
+(3, 6, 3),
+(3, 9, 4);
 
--- Yellow Line
-
+-- Yellow Line: 7 - 6 - 8 - 12 - 14
 INSERT INTO line_stations (line_id, station_id, position) VALUES
-(4, 4, 1),
-(4, 8, 2),
-(4, 7, 3),
-(4, 9, 4),
-(4, 12, 5);
+(4, 7, 1),
+(4, 6, 2),
+(4, 8, 3),
+(4, 12, 4),
+(4, 14, 5);
 
 -- Events
 
