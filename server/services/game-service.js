@@ -85,9 +85,20 @@ export default function GameService(networkService, eventDao, userDao) {
         }
 
         const route = [];
+        const usedSegmentIds = new Set();
+
         let currentStationId = game.startStation.stationId;
 
         for (const segmentId of submittedSegmentIds) {
+            if (usedSegmentIds.has(segmentId)) {
+                return {
+                    valid: false,
+                    route
+                };
+            }
+            
+            usedSegmentIds.add(segmentId);
+
             const segment = findSegmentById(segments, segmentId);
 
             if (!segment) {
@@ -126,18 +137,7 @@ export default function GameService(networkService, eventDao, userDao) {
 
     // Creates a new game and assigns random start and destination stations.
     this.startGame = async (userId) => {
-        if (activeGames.has(userId)) {
-            const existingGame = activeGames.get(userId);
-
-            const elapsedTime = Date.now() - existingGame.startedAt;
-
-            if (elapsedTime <= PLANNING_TIME_LIMIT_MS + PLANNING_TIME_TOLERANCE_MS)
-                return {
-                  startStation: existingGame.startStation,
-                  destinationStation: existingGame.destinationStation,
-                  coins: existingGame.coins
-                };
-        
+        if (activeGames.has(userId)) {            
             activeGames.delete(userId);
         }
 
@@ -169,12 +169,6 @@ export default function GameService(networkService, eventDao, userDao) {
 
         activeGames.set(userId, game);
         
-        // console.log("SEGMENTS");
-        // console.table(segments);
-        // console.log(
-        //     `TEST: ${game.startStation.stationId} -> ${game.destinationStation.stationId}`
-        // );
-
         return {
             startStation: game.startStation,
             destinationStation: game.destinationStation,
@@ -203,7 +197,7 @@ export default function GameService(networkService, eventDao, userDao) {
             };
         
             activeGames.delete(userId);
-        
+            
             return result;
         }
 
@@ -223,7 +217,7 @@ export default function GameService(networkService, eventDao, userDao) {
             };
 
             activeGames.delete(userId);
-
+            
             return result;
         }
 
