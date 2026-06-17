@@ -1,0 +1,142 @@
+.home-page {
+    padding: 1rem 0 1.5rem;
+}
+
+.home-hero {
+    margin-bottom: 1.5rem;
+}
+
+.home-page-title {
+    margin: 0.75rem 0 0.5rem;
+    font-size: 2.7rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #0f172a;
+}
+
+.instructions-section {
+    max-width: 1180px;
+    margin: 0 auto;
+    margin-top: 0.75rem;
+}
+
+.instruction-card {
+    position: relative;
+    overflow: hidden;
+    max-width: 255px;
+    margin: 0 auto;
+    padding: 1.35rem 1.15rem;
+    border-radius: 18px;
+    background: #ffffff;
+    border: 1px solid #dfe5ee;
+    box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+    text-align: center;
+}
+
+.instruction-card::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 5px;
+    background: #0d6efd;
+}
+
+.phase-setup::before {
+    background: #0d6efd;
+}
+
+.phase-planning::before {
+    background: #198754;
+}
+
+.phase-execution::before {
+    background: #fd7e14;
+}
+
+.phase-result::before {
+    background: #6f42c1;
+}
+
+.phase-number {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto 0.6rem;
+    border-radius: 50%;
+    background: #0d6efd;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.1rem;
+}
+
+.phase-planning .phase-number {
+    background: #198754;
+}
+
+.phase-execution .phase-number {
+    background: #fd7e14;
+}
+
+.phase-result .phase-number {
+    background: #6f42c1;
+}
+
+.phase-icon {
+    width: 70px;
+    height: 70px;
+    margin: 0 auto 0.85rem;
+    border-radius: 50%;
+    background: #eef4ff;
+    color: #0d6efd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.phase-planning .phase-icon {
+    background: #eaf7ef;
+    color: #198754;
+}
+
+.phase-execution .phase-icon {
+    background: #fff3e6;
+    color: #fd7e14;
+}
+
+.phase-result .phase-icon {
+    background: #f1eafd;
+    color: #6f42c1;
+}
+
+.instruction-card h3 {
+    margin-bottom: 0.55rem;
+    font-size: 1.05rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #0f172a;
+}
+
+.instruction-card p {
+    color: #334155;
+    line-height: 1.4;
+    text-align: left;
+    font-size: 0.95rem;
+}
+
+.home-actions {
+    margin-top: 1.25rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.8rem;
+}
+
+.home-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-width: 180px;
+    justify-content: center;
+}

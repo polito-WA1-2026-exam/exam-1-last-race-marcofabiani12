@@ -1,0 +1,72 @@
+.ranking-page {
+    padding: 1.25rem 0 1.75rem;
+}
+
+.ranking-hero {
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.ranking-page-title {
+    margin: 0.75rem 0 0.45rem;
+    color: #0f172a;
+    font-size: 2.45rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+}
+
+.ranking-page-description {
+    margin-bottom: 0;
+    color: #334155;
+    font-size: 1rem;
+}
+
+.ranking-dashboard {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1.35rem;
+}
+
+.ranking-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 1.2rem;
+}
+
+.ranking-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 170px;
+}
+
+.ranking-state-page {
+    min-height: 58vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ranking-state-card {
+    min-width: 260px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.ranking-state-card p {
+    margin: 0.8rem 0 0;
+    color: #334155;
+    font-weight: 600;
+}
+
+.ranking-alert {
+    max-width: 720px;
+    margin: 2rem auto 0;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    border-radius: 12px;
+    font-weight: 600;
+}

@@ -1,0 +1,142 @@
+.login-page {
+    padding: 1.25rem 0 1.75rem;
+}
+
+.login-layout {
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.login-info-panel {
+    padding: 1.5rem;
+}
+
+.login-page-title {
+    margin: 0.8rem 0 0.55rem;
+    color: #0f172a;
+    font-size: 1.9rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1.1;
+}
+
+.login-page-description {
+    margin-bottom: 1.2rem;
+    color: #334155;
+    font-size: 0.98rem;
+    line-height: 1.5;
+}
+
+.login-feature-list {
+    display: grid;
+    gap: 0.75rem;
+}
+
+.login-feature {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.8rem;
+    padding: 0.85rem;
+    border: 1px solid #dfe5ee;
+    border-radius: 16px;
+    background: #f8fafc;
+}
+
+.login-feature-icon,
+.login-card-icon {
+    width: 42px;
+    height: 42px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: #eef4ff;
+    color: #0d6efd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.login-feature h2 {
+    margin-bottom: 0.15rem;
+    color: #0f172a;
+    font-size: 0.98rem;
+    font-weight: 800;
+}
+
+.login-feature p {
+    margin-bottom: 0;
+    color: #334155;
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.login-card {
+    overflow: hidden;
+}
+
+.login-card .card-body {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.login-card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.85rem;
+    margin-bottom: 1.35rem;
+}
+
+.login-card-title {
+    margin-bottom: 0.2rem;
+    color: #0f172a;
+    font-size: 1.45rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+}
+
+.login-form {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.login-form .form-label {
+    color: #172033;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.login-form .form-control {
+    border-color: #dfe5ee;
+    padding-top: 0.65rem;
+    padding-bottom: 0.65rem;
+    color: #172033;
+    font-weight: 500;
+}
+
+.login-form .form-control:focus {
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+}
+
+.login-alert {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.login-submit-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+    margin-top: auto;
+    padding: 0.7rem 1rem;
+}
