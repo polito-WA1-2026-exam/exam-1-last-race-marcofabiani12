@@ -1,0 +1,78 @@
+.result-card {
+    max-width: 700px;
+    margin: 2.5rem auto 0;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.result-hero {
+    max-width: 460px;
+    margin: 0 auto 1.25rem;
+}
+
+.result-score-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.35rem;
+}
+
+.result-score-card {
+    padding: 1.2rem 1rem;
+    border: 1px solid #dfe5ee;
+    border-radius: 18px;
+    background: #f8fafc;
+}
+
+.result-score-icon {
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 0.75rem;
+    border-radius: 50%;
+    background: var(--phase-soft);
+    color: var(--phase-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.65rem;
+}
+
+.result-score-card strong,
+.result-score-card span {
+    display: block;
+}
+
+.result-score-card strong {
+    color: #0f172a;
+    font-size: 3rem;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.result-score-card span {
+    margin-top: 0.35rem;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 850;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.result-actions {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.result-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 170px;
+    padding: 0.7rem 1rem;
+}
+
+.result-action.primary {
+    box-shadow: 0 10px 22px rgba(111, 66, 193, 0.16);
+}

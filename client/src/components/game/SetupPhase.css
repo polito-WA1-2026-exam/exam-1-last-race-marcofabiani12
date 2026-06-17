@@ -1,0 +1,60 @@
+.setup-card {
+    padding: 1.35rem;
+}
+
+.setup-header {
+    align-items: center;
+}
+
+.setup-start-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 170px;
+    padding: 0.7rem 1rem;
+    box-shadow: 0 10px 22px rgba(13, 110, 253, 0.18);
+}
+
+.setup-content {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 1rem;
+    align-items: stretch;
+}
+
+.setup-map-panel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 460px;
+}
+
+.setup-map {
+    max-height: 455px;
+    object-fit: contain;
+}
+
+.setup-summary {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.setup-summary h2 {
+    margin-bottom: 0.55rem;
+    color: #0f172a;
+    font-size: 1.1rem;
+    font-weight: 850;
+}
+
+.setup-summary p {
+    margin-bottom: 1rem;
+    color: #334155;
+    font-size: 0.95rem;
+    line-height: 1.45;
+}
+
+.setup-summary p:last-child {
+    margin-bottom: 0;
+}
