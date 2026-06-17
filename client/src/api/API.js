@@ -13,6 +13,7 @@ async function fetchJson(url, options = {}) {
 
     if (!response.ok) {
         const error = json || { error: 'API error' };
+        error.status = response.status;
         throw error;
     }
 
