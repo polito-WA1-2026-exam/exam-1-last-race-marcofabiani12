@@ -1,122 +1,147 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useState } from 'react';
+import { Container } from 'react-bootstrap';
+import { Navigate, Route, Routes } from 'react-router-dom';
+
+import Header from './components/layout/Header.jsx';
+import AuthContext from './contexts/AuthContext.jsx';
+
+import { getUserInfo, logIn, logOut } from './api/authAPI.js';
+import { getStations, getSegments } from './api/networkAPI';
+
+import HomePage from './pages/HomePage.jsx';
+import LoginPage from './pages/LoginPage.jsx';
+import RankingPage from './pages/RankingPage.jsx';
+import GamePage from './pages/GamePage.jsx';
+import NotFoundPage from './pages/NotFoundPage.jsx';
+
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+    const [user, setUser] = useState(null);
+    const [loggedIn, setLoggedIn] = useState(false);
+    const [stations, setStations] = useState([]);
+    const [segments, setSegments] = useState([]);
 
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    // Reset all client-side authenticated state
+    // Useful after logout or when the server session is no longer valid
+    function clearAuth() {
+        setUser(null);
+        setLoggedIn(false);
+        setStations([]);
+        setSegments([]);
+    }
 
-      <div className="ticks"></div>
+    useEffect(() => {
+        getUserInfo()
+            .then(user => {
+                setUser(user);
+                setLoggedIn(true);
+            })
+            .catch(() => {
+                clearAuth();
+            });
+    }, []);
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+    useEffect(() => {
+        if (!loggedIn) {
+            return;
+        }
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        const fullMap = new Image();
+        fullMap.src = '/maps/full-map.png';
+        
+        const stationsOnlyMap = new Image();
+        stationsOnlyMap.src = '/maps/stations-only.png';
+    }, [loggedIn]);
+    
+    // The underground network is immutable
+    // Stations and segments are fetched only once and then shared by every
+    // game instance and phase, avoiding repeated requests for the same data
+    useEffect(() => {
+        if (!loggedIn) {
+            setStations([]);
+            setSegments([]);
+            return;
+        }
+
+        // Prevent stale API responses from updating state after logout or effect cleanup
+        let cancelled = false;
+
+        const loadNetwork = async () => {
+            try {
+                const [stationsData, segmentsData] = await Promise.all([
+                    getStations(),
+                    getSegments()
+                ]);
+
+                if (!cancelled) {
+                    setStations(stationsData);
+                    setSegments(segmentsData);
+                }
+            } catch (err) {
+                if (!cancelled) {
+                    console.error(err);
+                }
+            }
+        };
+
+        loadNetwork();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [loggedIn]);
+
+    async function login(credentials) {
+        const user = await logIn(credentials);
+        setUser(user);
+        setLoggedIn(true);
+        return user;
+    }
+
+    async function logout() {
+        try {
+            await logOut();
+        } catch (err) {
+            console.error(err);
+        } finally {
+            // The local auth state must be cleared even if the server session
+            // has already expired or the logout request fails
+            clearAuth();
+        }
+    }
+
+    return (
+        <AuthContext.Provider value={{ user, loggedIn, login, logout, clearAuth }}>
+            <div className="app-shell min-vh-100 d-flex flex-column">
+                <Header />
+
+                <Container className="flex-grow-1 pt-2 pb-3">
+                    <Routes>
+                        <Route path="/" element={<HomePage />} />
+                        <Route
+                            path="/login"
+                            element={loggedIn ? <Navigate replace to="/" /> : <LoginPage />}
+                        />
+                        <Route
+                            path="/ranking"
+                            element={loggedIn ? <RankingPage /> : <Navigate replace to="/login" />}
+                        />
+                        <Route
+                            path="/game"
+                            element={loggedIn ?
+                                <GamePage 
+                                    stations={stations}
+                                    segments={segments}
+                                /> :
+                                <Navigate replace to="/login" />}
+                        />
+                        <Route path="*" element={<NotFoundPage />} />
+                    </Routes>
+                </Container>
+            </div>
+        </AuthContext.Provider>
+    );
 }
 
-export default App
+export default App;
