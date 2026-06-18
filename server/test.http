@@ -35,12 +35,6 @@ GET http://localhost:3001/api/sessions/current
 
 ###
 
-# Full network (Setup phase)
-
-GET http://localhost:3001/api/network/full
-
-###
-
 # Stations only (Planning phase)
 
 GET http://localhost:3001/api/network/stations
