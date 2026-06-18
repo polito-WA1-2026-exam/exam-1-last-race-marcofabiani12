@@ -11,7 +11,7 @@ export default function GameService(networkService, eventDao, userDao) {
 
     // Planning phase duration (90 seconds) plus a small tolerance for network delays.
     const PLANNING_TIME_LIMIT_MS = 90_000;
-    const PLANNING_TIME_TOLERANCE_MS = 5_000;
+    const PLANNING_TIME_TOLERANCE_MS = 2_000;
     
     // Builds the graph representation of the underground network.
     const buildAdjacency = (segments) => {
@@ -188,7 +188,7 @@ export default function GameService(networkService, eventDao, userDao) {
 
         if (elapsedTime > PLANNING_TIME_LIMIT_MS + PLANNING_TIME_TOLERANCE_MS) {
             const bestScore = await userDao.getUserBestScore(userId);
-        
+
             const result = {
                 valid: false,
                 reason: "timeout",
