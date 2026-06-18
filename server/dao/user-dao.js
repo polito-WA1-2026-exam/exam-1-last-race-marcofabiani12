@@ -29,8 +29,7 @@ export default function UserDao() {
                             } else {
                                 const user = new User(
                                     row.user_id,
-                                    row.username,
-                                    row.best_score
+                                    row.username
                                 );
 
                                 resolve(user);

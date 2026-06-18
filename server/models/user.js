@@ -1,5 +1,4 @@
-export default function User(userId, username, bestScore) {
+export default function User(userId, username) {
     this.userId = userId;
     this.username = username;
-    this.bestScore = bestScore;
 }
