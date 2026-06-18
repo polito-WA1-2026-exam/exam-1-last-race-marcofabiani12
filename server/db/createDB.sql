@@ -54,11 +54,21 @@ ON line_stations(station_id);
 -- marco  / password1
 -- alice  / password2
 -- giulio / password3
+-- luca   / password4
+-- sara   / password5
+-- andrea / password6
+-- chiara / password7
+-- matteo / password8
 
 INSERT INTO users (username, hashed_password, salt, best_score) VALUES
 ('marco',  'a6a15a08e20ca3999ddde8091d0b858430bcf688da5eb289266de55b279ffd7c', 'salt-marco-2026', 31),
 ('alice',  '69510b527a32b7067493108896100ccbe9b90e796f12bb4e5d25b410e69e2e87', 'salt-alice-2026', 24),
-('giulio', '3318a8626aea97938bf9fbf59f35a153ee8ce1f509234414b1f1baaddac363a9', 'salt-giulio-2026', 0);
+('giulio', '3318a8626aea97938bf9fbf59f35a153ee8ce1f509234414b1f1baaddac363a9', 'salt-giulio-2026', 0),
+('luca',   '4c2a698372c09e137a30a83e9e55e63b6449eed68489dd0ce3149a922432b00f', 'salt-luca-2026', 28),
+('sara',   '902f28c029c6c5ad8cb1976504fff1f3a1fa999a776b1a4abe44e9961b61bfdb', 'salt-sara-2026', 21),
+('andrea', '0012279c33c6efbddecbd26f7ec2d1727c3efbbd94943130e1ca359091f49104', 'salt-andrea-2026', 17),
+('chiara', '86a60b92ee87c0f338918950a4e020d6bcba9918cca0c71fc0f2208d0c17f64c', 'salt-chiara-2026', 14),
+('matteo', '1789f2316f5006e1d93d22f70241dcd40f0d6857da8de9faefa2206b1afbf464', 'salt-matteo-2026', 0);
 
 -- Stations
 
