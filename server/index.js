@@ -119,17 +119,6 @@ app.delete('/api/sessions/current', (req, res) => {
 
 // --- Network APIs ---
 
-// GET /api/network/full
-// Returns the complete underground network used during the Setup phase.
-app.get('/api/network/full', isLoggedIn, async (req, res) => {
-    try {
-        const network = await networkService.getFullNetwork();
-        return res.status(200).json(network);
-    } catch (err) {
-        return res.status(500).json(err);
-    }
-});
-
 // GET /api/network/stations
 // Returns all stations. Used during the Planning phase.
 app.get('/api/network/stations', isLoggedIn, async (req, res) => {

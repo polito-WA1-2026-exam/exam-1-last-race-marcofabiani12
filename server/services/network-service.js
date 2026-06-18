@@ -21,14 +21,6 @@ export default function NetworkService(networkDao) {
         segmentsCache = segments;
     };
 
-    this.getFullNetwork = () => {
-        return {
-            stations: stationsCache,
-            lines: linesCache,
-            lineStations: lineStationsCache
-        };
-    };
-
     this.getStations = () => {
         return stationsCache;
     };

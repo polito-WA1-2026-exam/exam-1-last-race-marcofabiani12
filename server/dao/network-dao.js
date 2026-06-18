@@ -83,17 +83,4 @@ export default function NetworkDao() {
             });
         });
     };
-
-    this.getFullNetwork = async () => {
-        const stations = await this.getStations();
-        const lines = await this.getLines();
-        const lineStations = await this.getLineStations();
-
-        return {
-            stations,
-            lines,
-            lineStations
-        };
-    };
-
 }
