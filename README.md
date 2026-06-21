@@ -186,7 +186,7 @@ Submits the route built during the Planning phase. The server retrieves the acti
 }
 ```
 
-- Response body (valid route)::
+- Response body (valid route):
 
 ```json
 {
@@ -308,9 +308,15 @@ Returns the ranking ordered by best score.
 
 - `RankingPage` (in `RankingPage.jsx`): protected page displaying the ranking of registered users.
 
-## Screenshot
+## Screenshots
 
-![Screenshot](./img/screenshot.jpg)
+### General ranking page
+
+![General ranking page](./img/ranking-page.png)
+
+### Game planning phase
+
+![Game planning phase](./img/planning-phase.png)
 
 ## Users Credentials
 
@@ -324,5 +330,9 @@ Returns the ranking ordered by best score.
 - matteo, password8 (initialized with 0  points)
 
 ## Use of AI Tools
-Briefly describe whether you used any AI tools (e.g., ChatGPT, GitHub Copilot, Claude) while working on this project, for which purposes (e.g., clarifying concepts, debugging, generating code), and how you verified or adapted their output.
-If you did not use any AI tools, simply state so.
+
+I used some AI tools during the development of this project. In particular, I used ChatGPT Plus with the advanced reasoning mode to discuss style choices, CSS/Bootstrap layout decisions, possible bugs, and parts of the code that were not immediately clear. I also used it near the end of the work as a final review tool, to check whether there were inconsistencies or missing error cases.
+
+I also used Google Stitch during the design phase to generate and compare different UI mockups, mainly to get ideas about the visual style of the application.
+
+In all cases, the AI output was not used blindly: I reviewed the suggestions, adapted them to the project requirements, and kept only the parts that were coherent with my implementation.
