@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Button, Col, Row, Spinner } from 'react-bootstrap';
+import { Alert, Button, Col, Row, Spinner } from 'react-bootstrap';
 import { HourglassSplit } from 'react-bootstrap-icons';
 
 import { executeGame } from '../../api/gameAPI';
@@ -15,9 +15,11 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
 
     const [timeLeft, setTimeLeft] = useState(90);
     const [submitted, setSubmitted] = useState(false);
+    const [timerExpired, setTimerExpired] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     useEffect(() => {
-        if (!game || submitted || !planningStartedAt) {
+        if (!game || submitted || timerExpired || !planningStartedAt) {
             return;
         }
         
@@ -30,12 +32,13 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
 
             if (remainingMs === 0) {
                 clearInterval(timer);
+                setTimerExpired(true);
                 submitJourney();
             }
         }, TIMER_REFRESH_MS);
 
         return () => clearInterval(timer);
-    }, [game, planningStartedAt, submitted, selectedSegments]);
+    }, [game, planningStartedAt, submitted, timerExpired, selectedSegments]);
 
     function getStationName(stationId) {
         return stations.find(
@@ -48,9 +51,11 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
     }
 
     function addSegment(segmentId) {
-        if (submitted) {
+        if (submitted || timerExpired) {
             return;
         }
+
+        setErrorMessage('');
 
         setSelectedSegments(oldSegments => [
             ...oldSegments,
@@ -59,9 +64,11 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
     }
 
     function removeSegment(indexToRemove) {
-        if (submitted) {
+        if (submitted || timerExpired) {
             return;
         }
+
+        setErrorMessage('');
 
         setSelectedSegments(oldSegments =>
             oldSegments.filter(
@@ -71,6 +78,11 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
     }
 
     function clearJourney() {
+        if (submitted || timerExpired) {
+            return;
+        }
+
+        setErrorMessage('');
         setSelectedSegments([]);
     }
 
@@ -80,12 +92,15 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
         }
 
         setSubmitted(true);
+        setErrorMessage('');
 
         try {
             const result = await executeGame(selectedSegments);
             onExecuted(result);
         } catch (err) {
             console.error(err);
+            setSubmitted(false);
+            setErrorMessage('Unable to submit your route. Please try again.');
         }
     }
 
@@ -127,6 +142,13 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
                         <strong className="timer-display">{timerText}</strong>
                     </div>
                 </div>
+
+                {errorMessage && (
+                    <Alert variant="danger" className="mb-3">
+                        <i className="bi bi-exclamation-triangle" />
+                        <span className="ms-2">{errorMessage}</span>
+                    </Alert>
+                )}
 
                 <Row className="planning-layout g-3 align-items-stretch">
                     <Col md={5} className="planning-col">
@@ -172,7 +194,7 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
                                                     <Button
                                                         key={`${segmentId}-${index}`}
                                                         onClick={() => removeSegment(index)}
-                                                        disabled={submitted}
+                                                        disabled={submitted || timerExpired}
                                                         variant="success"
                                                         size="sm"
                                                         className="journey-step-button"
@@ -193,7 +215,8 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
                                             onClick={clearJourney}
                                             disabled={
                                                 selectedSegments.length === 0 ||
-                                                submitted
+                                                submitted ||
+                                                timerExpired
                                             }
                                         >
                                             Clear
@@ -205,8 +228,17 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
                                             onClick={submitJourney}
                                             disabled={submitted}
                                         >
-                                            <i className="bi bi-check2-circle" />
-                                            Submit
+                                            {submitted ? (
+                                                <>
+                                                    <Spinner animation="border" size="sm" />
+                                                    Submitting...
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <i className="bi bi-check2-circle" />
+                                                    Submit
+                                                </>
+                                            )}
                                         </Button>
                                     </div>
                                 </section>
@@ -225,7 +257,7 @@ function PlanningPhase({ game, stations, segments, onExecuted }) {
                                             <Button
                                                 key={segment.segmentId}
                                                 onClick={() => addSegment(segment.segmentId)}
-                                                disabled={submitted}
+                                                disabled={submitted || timerExpired}
                                                 variant="outline-success"
                                                 size="sm"
                                                 className="segment-option-button"
