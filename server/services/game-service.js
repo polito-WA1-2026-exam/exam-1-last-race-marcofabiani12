@@ -32,7 +32,7 @@ export default function GameService(networkService, eventDao, userDao) {
     };
 
     this.init = async () => {
-        eventsCache = await eventDao.getAllEvents();;
+        eventsCache = await eventDao.getAllEvents();
         adjacencyCache = buildAdjacency(networkService.getSegments());
     };
 
@@ -108,10 +108,12 @@ export default function GameService(networkService, eventDao, userDao) {
                 };
             }
 
+            let nextStationId;
+
             if (segment.fromStationId === currentStationId) {
-                currentStationId = segment.toStationId;
+                nextStationId = segment.toStationId;
             } else if (segment.toStationId === currentStationId) {
-                currentStationId = segment.fromStationId;
+                nextStationId = segment.fromStationId;
             } else {
                 return {
                     valid: false,
@@ -119,7 +121,13 @@ export default function GameService(networkService, eventDao, userDao) {
                 };
             }
 
-            route.push(segment);
+            route.push({
+                segmentId: segment.segmentId,
+                fromStationId: currentStationId,
+                toStationId: nextStationId
+            });
+
+            currentStationId = nextStationId;
         }
 
         if (currentStationId !== game.destinationStation.stationId) {
