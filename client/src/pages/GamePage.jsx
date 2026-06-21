@@ -10,16 +10,17 @@ import ResultPhase from '../components/game/ResultPhase.jsx';
 
 import './GamePage.css';
 
-function GamePage({ stations, segments }) {
+function GamePage({ stations, segments, networkError }) {
     const [phase, setPhase] = useState('setup');
     const [planningGame, setPlanningGame] = useState(null);
     const [executionResult, setExecutionResult] = useState(null);
     const [startingGame, setStartingGame] = useState(false);
 
     const navigate = useNavigate();
+    const networkReady = !networkError && stations.length > 0 && segments.length > 0;
 
     async function startPlanning() {
-        if (startingGame) {
+        if (startingGame || !networkReady) {
             return;
         }
 
@@ -44,6 +45,8 @@ function GamePage({ stations, segments }) {
                 <SetupPhase
                     onStart={startPlanning}
                     starting={startingGame}
+                    networkReady={networkReady}
+                    networkError={networkError}
                 />
             )}
 

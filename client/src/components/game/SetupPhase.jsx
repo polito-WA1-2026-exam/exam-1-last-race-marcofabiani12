@@ -1,8 +1,8 @@
-import { Button, Spinner } from 'react-bootstrap';
+import { Alert, Button, Spinner } from 'react-bootstrap';
 
 import './SetupPhase.css';
 
-function SetupPhase({ onStart, starting }) {
+function SetupPhase({ onStart, starting, networkReady, networkError }) {
     return (
         <section className="setup-phase game-phase-shell game-theme-setup">
             <div className="setup-card game-phase-card">
@@ -26,12 +26,17 @@ function SetupPhase({ onStart, starting }) {
                         variant="primary"
                         className="setup-start-button"
                         onClick={onStart}
-                        disabled={starting}
+                        disabled={starting || !networkReady}
                     >
                         {starting ? (
                             <>
                                 <Spinner animation="border" size="sm" />
                                 Starting...
+                            </>
+                        ) : !networkReady && !networkError ? (
+                            <>
+                                <Spinner animation="border" size="sm" />
+                                Loading network...
                             </>
                         ) : (
                             <>
@@ -41,6 +46,13 @@ function SetupPhase({ onStart, starting }) {
                         )}
                     </Button>
                 </header>
+
+                {networkError && (
+                    <Alert variant="danger" className="mb-3">
+                        <i className="bi bi-exclamation-triangle" />
+                        <span className="ms-2">{networkError}</span>
+                    </Alert>
+                )}
 
                 <div className="setup-content">
                     <div className="setup-map-panel map-panel">

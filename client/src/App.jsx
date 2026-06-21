@@ -21,6 +21,7 @@ function App() {
     const [loggedIn, setLoggedIn] = useState(false);
     const [stations, setStations] = useState([]);
     const [segments, setSegments] = useState([]);
+    const [networkError, setNetworkError] = useState('');
 
     // Reset all client-side authenticated state
     // Useful after logout or when the server session is no longer valid
@@ -29,6 +30,7 @@ function App() {
         setLoggedIn(false);
         setStations([]);
         setSegments([]);
+        setNetworkError('');
     }
 
     useEffect(() => {
@@ -61,6 +63,7 @@ function App() {
         if (!loggedIn) {
             setStations([]);
             setSegments([]);
+            setNetworkError('');
             return;
         }
 
@@ -68,6 +71,8 @@ function App() {
         let cancelled = false;
 
         const loadNetwork = async () => {
+            setNetworkError('');
+
             try {
                 const [stationsData, segmentsData] = await Promise.all([
                     getStations(),
@@ -81,6 +86,9 @@ function App() {
             } catch (err) {
                 if (!cancelled) {
                     console.error(err);
+                    setStations([]);
+                    setSegments([]);
+                    setNetworkError('Unable to load the underground network.');
                 }
             }
         };
@@ -133,6 +141,7 @@ function App() {
                                 <GamePage 
                                     stations={stations}
                                     segments={segments}
+                                    networkError={networkError}
                                 /> :
                                 <Navigate replace to="/login" />}
                         />
