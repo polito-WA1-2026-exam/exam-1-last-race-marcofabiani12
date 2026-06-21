@@ -5,15 +5,23 @@ function LoginForm({ onLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     async function handleSubmit(event) {
         event.preventDefault();
+
+        if (loading) {
+            return;
+        }
+
+        setLoading(true);
         setErrorMessage('');
 
         try {
             await onLogin({ username, password });
         } catch {
             setErrorMessage('Invalid username or password');
+            setLoading(false);
         }
     }
 
@@ -52,9 +60,14 @@ function LoginForm({ onLogin }) {
                 </Alert>
             )}
                         
-            <Button className="login-submit-button" type="submit" variant="primary">
+            <Button
+                className="login-submit-button"
+                type="submit"
+                variant="primary"
+                disabled={loading}
+            >
                 <i className="bi bi-box-arrow-in-right" />
-                Login
+                {loading ? 'Logging in...' : 'Login'}
             </Button>
         </Form>
     );
