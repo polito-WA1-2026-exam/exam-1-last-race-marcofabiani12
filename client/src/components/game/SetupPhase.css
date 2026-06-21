@@ -1,5 +1,5 @@
 .setup-card {
-    padding: 1.35rem;
+    padding: 1.15rem;
 }
 
 .setup-header {
@@ -27,11 +27,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 460px;
+    min-height: 430px;
 }
 
 .setup-map {
-    max-height: 455px;
+    max-height: 425px;
     object-fit: contain;
 }
 
