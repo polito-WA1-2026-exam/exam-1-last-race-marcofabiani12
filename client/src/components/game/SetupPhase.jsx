@@ -2,7 +2,7 @@ import { Alert, Button, Spinner } from 'react-bootstrap';
 
 import './SetupPhase.css';
 
-function SetupPhase({ onStart, starting, networkReady, networkError }) {
+function SetupPhase({ onStart, starting, networkReady, networkError, startError }) {
     return (
         <section className="setup-phase game-phase-shell game-theme-setup">
             <div className="setup-card game-phase-card">
@@ -51,6 +51,13 @@ function SetupPhase({ onStart, starting, networkReady, networkError }) {
                     <Alert variant="danger" className="mb-3">
                         <i className="bi bi-exclamation-triangle" />
                         <span className="ms-2">{networkError}</span>
+                    </Alert>
+                )}
+
+                {startError && (
+                    <Alert variant="danger" className="mb-3">
+                        <i className="bi bi-exclamation-triangle" />
+                        <span className="ms-2">{startError}</span>
                     </Alert>
                 )}
 

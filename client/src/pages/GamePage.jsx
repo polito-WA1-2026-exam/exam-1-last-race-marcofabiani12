@@ -15,6 +15,7 @@ function GamePage({ stations, segments, networkError }) {
     const [planningGame, setPlanningGame] = useState(null);
     const [executionResult, setExecutionResult] = useState(null);
     const [startingGame, setStartingGame] = useState(false);
+    const [startError, setStartError] = useState('');
 
     const navigate = useNavigate();
     const networkReady = !networkError && stations.length > 0 && segments.length > 0;
@@ -25,6 +26,7 @@ function GamePage({ stations, segments, networkError }) {
         }
 
         setStartingGame(true);
+        setStartError('');
 
         try {
             const gameData = await startGame();
@@ -34,6 +36,7 @@ function GamePage({ stations, segments, networkError }) {
             setPhase('planning');
         } catch (err) {
             console.error(err);
+            setStartError('Unable to start a new game. Please try again.');
         } finally {
             setStartingGame(false);
         }
@@ -47,6 +50,7 @@ function GamePage({ stations, segments, networkError }) {
                     starting={startingGame}
                     networkReady={networkReady}
                     networkError={networkError}
+                    startError={startError}
                 />
             )}
 
