@@ -111,9 +111,12 @@ app.get('/api/sessions/current', (req, res) => {
 
 // DELETE /api/sessions/current
 // This route is used for loggin out the current user.
-app.delete('/api/sessions/current', (req, res) => {
-    req.logout(() => {
-        res.end();
+app.delete('/api/sessions/current', (req, res, next) => {
+    req.logout((err) => {
+        if (err)
+            return next(err);
+
+        return res.status(200).end();
     });
 });
 
@@ -126,7 +129,10 @@ app.get('/api/network/stations', isLoggedIn, async (req, res) => {
         const stations = await networkService.getStations();
         return res.status(200).json(stations);
     } catch (err) {
-        return res.status(500).json(err);
+        console.error(err);
+        return res.status(500).json({
+            error: 'Internal server error'
+        });
     }
 });
 
@@ -137,7 +143,10 @@ app.get('/api/network/segments', isLoggedIn, async (req, res) => {
         const segments = await networkService.getSegments();
         return res.status(200).json(segments);
     } catch (err) {
-        return res.status(500).json(err);
+        console.error(err);
+        return res.status(500).json({
+            error: 'Internal server error'
+        });
     }
 });
 
@@ -150,7 +159,8 @@ app.post('/api/games', isLoggedIn, async (req, res) => {
         const game = await gameService.startGame(req.user.userId);
         res.status(201).json(game);
     } catch (err) {
-        res.status(500).json({
+        console.error(err);
+        return res.status(500).json({
             error: 'Internal server error'
         });
     }
@@ -160,8 +170,13 @@ app.post('/api/games', isLoggedIn, async (req, res) => {
 // Submits the selected route, validates it, extracts events, computes final score.
 app.post('/api/games/execute', isLoggedIn, async (req, res) => {
     const { segments } = req.body;
+    const maxSegments = networkService.getSegments().length;
 
-    if (!Array.isArray(segments) || !segments.every(Number.isInteger)) {
+    if (
+        !Array.isArray(segments) ||
+        segments.length > maxSegments ||
+        !segments.every(s => Number.isInteger(s) && s > 0)
+    ) {
         return res.status(400).json({
             error: 'Invalid segments'
         });
@@ -183,7 +198,6 @@ app.post('/api/games/execute', isLoggedIn, async (req, res) => {
 
     } catch (err) {
         console.error(err);
-
         return res.status(500).json({
             error: 'Internal server error'
         });
@@ -194,11 +208,12 @@ app.post('/api/games/execute', isLoggedIn, async (req, res) => {
 
 // GET /api/ranking
 // Returns the ranking ordered by best score.
-app.get('/api/ranking', async (req, res) => {
+app.get('/api/ranking', isLoggedIn, async (req, res) => {
     try {
         const ranking = await userDao.getRanking();
         return res.status(200).json(ranking);
     } catch (err) {
+        console.error(err);
         return res.status(500).json({
             error: 'Internal server error'
         });
