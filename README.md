@@ -24,8 +24,7 @@ Returns the currently authenticated user.
 ```json
 {
   "userId": 1,
-  "username": "marco",
-  "bestScore": 31
+  "username": "marco"
 }
 ```
 
@@ -55,8 +54,7 @@ Performs user login.
 ```json
 {
   "userId": 1,
-  "username": "marco",
-  "bestScore": 31
+  "username": "marco"
 }
 ```
 
@@ -79,52 +77,11 @@ Performs user logout.
 - Status codes:
 
   - `200 OK`
-  - `401 Unauthorized`
   - `500 Internal Server Error`
 
 ---
 
 ### Network
-
-#### `GET /api/network/full`
-
-Returns the complete underground network used during the Setup phase.
-
-- Request parameters and body: none
-
-- Response body:
-
-```json
-{
-  "stations": [
-    {
-      "stationId": 1,
-      "name": "Centrale"
-    }
-  ],
-  "lines": [
-    {
-      "lineId": 1,
-      "name": "Red Line"
-    }
-  ],
-  "lineStations": [
-    {
-      "lineId": 1,
-      "stationId": 1,
-      "position": 1
-    }
-  ]
-}
-```
-
-- Status codes:
-
-  - `200 OK`
-  - `401 Unauthorized`
-  - `500 Internal Server Error`
-
----
 
 #### `GET /api/network/stations`
 
@@ -326,6 +283,7 @@ Returns the ranking ordered by best score.
 - Status codes:
 
   - `200 OK`
+  - `401 Unauthorized`
   - `500 Internal Server Error`
 
 ## Database Tables
@@ -338,11 +296,17 @@ Returns the ranking ordered by best score.
 
 ## Main React Components
 
-- `ListOfSomething` (in `List.js`): component purpose and main functionality
-- `GreatButton` (in `GreatButton.js`): component purpose and main functionality
-- ...
+- `HomePage` (in `HomePage.jsx`): public page showing the game instructions; if the user is logged in, it also provides access to a new game, the ranking page
 
-(only _main_ components, minor ones may be skipped)
+- `LoginPage` (in `LoginPage.jsx`): page dedicated to user authentication.
+
+- `GamePage` (in `GamePage.jsx`): protected page implementing the game workflow.
+  - `SetupPhase` (in `SetupPhase.jsx`): displays the complete underground network and starts a new game.
+  - `PlanningPhase` (in `PlanningPhase.jsx`): allows the player to build a route and manages the 90-second planning timer.
+  - `ExecutionPhase` (in `ExecutionPhase.jsx`): executes the submitted route and displays journey events and coin updates.
+  - `ResultPhase` (in `ResultPhase.jsx`): displays the final score and post-game actions.
+
+- `RankingPage` (in `RankingPage.jsx`): protected page displaying the ranking of registered users.
 
 ## Screenshot
 
@@ -350,10 +314,14 @@ Returns the ranking ordered by best score.
 
 ## Users Credentials
 
-- marco, password1 (initilized with 31 points)
-- alice, password2 (initilized with 24 points)
-- giulio, password3 (initilized with 0 points)
-
+- marco,  password1 (initialized with 31 points)
+- alice,  password2 (initialized with 24 points)
+- giulio, password3 (initialized with 0  points)
+- luca,   password4 (initialized with 28 points)
+- sara,   password5 (initialized with 21 points)
+- andrea, password6 (initialized with 17 points)
+- chiara, password7 (initialized with 14 points)
+- matteo, password8 (initialized with 0  points)
 
 ## Use of AI Tools
 Briefly describe whether you used any AI tools (e.g., ChatGPT, GitHub Copilot, Claude) while working on this project, for which purposes (e.g., clarifying concepts, debugging, generating code), and how you verified or adapted their output.
