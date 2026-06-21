@@ -5,12 +5,28 @@
     background: #ffffff;
 }
 
+.ranking-table-scroll {
+    max-height: 368px;
+    overflow-y: auto;
+}
+
 .ranking-table {
     vertical-align: middle;
     table-layout: fixed;
 }
 
+.ranking-table thead tr {
+    height: 48px;
+}
+
+.ranking-table tbody tr {
+    height: 64px;
+}
+
 .ranking-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
     padding: 0.85rem 1rem;
     border-bottom: 1px solid #dfe5ee;
     background: #f8fafc;

@@ -5,7 +5,8 @@ import './RankingTable.css';
 function RankingTable({ ranking, currentUsername }) {
     return (
         <div className="ranking-table-card">
-            <Table hover responsive className="ranking-table mb-0">
+            <div className="ranking-table-scroll">
+            <Table hover className="ranking-table mb-0">
                 <thead>
                     <tr>
                         <th>Rank</th>
@@ -46,6 +47,7 @@ function RankingTable({ ranking, currentUsername }) {
                     })}
                 </tbody>
             </Table>
+            </div>
         </div>
     );
 }
