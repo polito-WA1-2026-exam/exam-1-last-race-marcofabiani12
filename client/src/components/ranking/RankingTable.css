@@ -87,26 +87,10 @@
     color: #b45309;
 }
 
-.rank-1 td {
-    background: #fff7d6;
-}
-
-.rank-2 td {
-    background: #f6f8fb;
-}
-
-.rank-3 td {
-    background: #fff0df;
-}
-
 .ranking-player {
     display: flex;
     align-items: center;
     gap: 0.55rem;
-}
-
-.score-column {
-    width: 120px;
 }
 
 .ranking-score {

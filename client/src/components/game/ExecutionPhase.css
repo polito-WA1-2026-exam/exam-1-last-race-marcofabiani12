@@ -236,31 +236,6 @@
     font-weight: 900;
 }
 
-.execution-empty-log {
-    flex: 1;
-    min-height: 200px;
-    border: 1px dashed #cbd5e1;
-    border-radius: 16px;
-    background: #f8fafc;
-    color: #64748b;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 0.45rem;
-    text-align: center;
-}
-
-.execution-empty-log i {
-    color: var(--phase-accent);
-    font-size: 1.5rem;
-}
-
-.execution-empty-log p {
-    margin-bottom: 0;
-    font-weight: 650;
-}
-
 .execution-controls {
     display: flex;
     justify-content: center;

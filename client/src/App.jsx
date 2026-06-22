@@ -120,7 +120,7 @@ function App() {
     }
 
     return (
-        <AuthContext.Provider value={{ user, loggedIn, login, logout, clearAuth }}>
+        <AuthContext.Provider value={{ user, loggedIn, login, logout }}>
             <div className="app-shell min-vh-100 d-flex flex-column">
                 <Header />
 

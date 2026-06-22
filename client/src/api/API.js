@@ -20,4 +20,4 @@ async function fetchJson(url, options = {}) {
     return json;
 }
 
-export { SERVER_URL, fetchJson };
+export { fetchJson };

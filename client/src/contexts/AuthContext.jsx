@@ -4,8 +4,7 @@ const AuthContext = createContext({
     user: null,
     loggedIn: false,
     login: async () => {},
-    logout: async () => {},
-    clearAuth: async () => {}
+    logout: async () => {}
 });
 
 export default AuthContext;
