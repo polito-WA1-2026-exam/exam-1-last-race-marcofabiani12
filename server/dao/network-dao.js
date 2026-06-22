@@ -1,7 +1,5 @@
 import db from "../db/db.js";
 import Station from "../models/station.js";
-import Line from "../models/line.js";
-import LineStation from "../models/lineStation.js";
 import Segment from "../models/segment.js";
 
 export default function NetworkDao() {
@@ -17,40 +15,6 @@ export default function NetworkDao() {
             db.all(sql, [], (err, rows) => {
                 if (err) reject(err);
                 else resolve(rows.map(row => new Station(row.station_id, row.name)));
-            });
-        });
-    };
-
-    this.getLines = () => {
-        return new Promise((resolve, reject) => {
-            const sql = `
-                SELECT line_id, name
-                FROM lines
-                ORDER BY line_id
-            `;
-
-            db.all(sql, [], (err, rows) => {
-                if (err) reject(err);
-                else resolve(rows.map(row => new Line(row.line_id, row.name)));
-            });
-        });
-    };
-
-    this.getLineStations = () => {
-        return new Promise((resolve, reject) => {
-            const sql = `
-                SELECT line_id, station_id, position
-                FROM line_stations
-                ORDER BY line_id, position
-            `;
-
-            db.all(sql, [], (err, rows) => {
-                if (err) reject(err);
-                else resolve(rows.map(row => new LineStation(
-                    row.line_id,
-                    row.station_id,
-                    row.position
-                )));
             });
         });
     };
