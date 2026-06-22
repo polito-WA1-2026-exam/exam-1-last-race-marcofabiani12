@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { Alert, Button, Spinner } from 'react-bootstrap';
 
 import AuthContext from '../contexts/AuthContext.jsx';
@@ -13,7 +13,6 @@ function RankingPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
     const { user } = useContext(AuthContext);
-    const navigate = useNavigate();
 
     useEffect(() => {
         getRanking()
@@ -72,16 +71,18 @@ function RankingPage() {
 
                 <div className="ranking-actions">
                     <Button
+                        as={Link}
+                        to="/game"
                         variant="primary"
-                        onClick={() => navigate('/game')}
                     >
                         <i className="bi bi-play-fill" />
                         Start New Game
                     </Button>
 
                     <Button
+                        as={Link}
+                        to="/"
                         variant="outline-secondary"
-                        onClick={() => navigate('/')}
                     >
                         <i className="bi bi-house-door" />
                         Back to Home

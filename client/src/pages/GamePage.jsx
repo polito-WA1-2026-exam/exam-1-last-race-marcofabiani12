@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { startGame } from '../api/gameAPI';
 
@@ -17,7 +16,6 @@ function GamePage({ stations, segments, networkError }) {
     const [startingGame, setStartingGame] = useState(false);
     const [startError, setStartError] = useState('');
 
-    const navigate = useNavigate();
     const networkReady = !networkError && stations.length > 0 && segments.length > 0;
 
     async function startPlanning() {
@@ -83,7 +81,6 @@ function GamePage({ stations, segments, networkError }) {
                         setExecutionResult(null);
                         setPhase('setup');
                     }}
-                    onViewRanking={() => navigate('/ranking')}
                 />
             )}
         </div>

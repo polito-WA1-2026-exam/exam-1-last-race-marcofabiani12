@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import {
     ArrowRepeat,
@@ -8,7 +9,7 @@ import {
 
 import './ResultPhase.css';
 
-function ResultPhase({ result, onPlayAgain, onViewRanking }) {
+function ResultPhase({ result, onPlayAgain }) {
     if (!result) {
         return (
             <div className="result-phase game-theme-result game-state-page">
@@ -75,10 +76,10 @@ function ResultPhase({ result, onPlayAgain, onViewRanking }) {
                     </Button>
 
                     <Button
-                        type="button"
+                        as={Link}
+                        to="/ranking"
                         variant="outline-secondary"
                         className="result-action secondary"
-                        onClick={onViewRanking}
                     >
                         <BarChartFill />
                         View Ranking
